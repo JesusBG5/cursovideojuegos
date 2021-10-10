@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Juego del 15</title>
+	<style type="text/css">
+		section{
+			text-align: center;
+		}
+		.tablero{
+			background: steelblue;
+			color: white;
+			font-size: 1.5rem;
+			font-weight: bold;
+			margin: 0.2rem;
+			height: 80px;
+			vertical-align: top;
+			width: 80px;
+		}
+	</style>
+</head>
+<body>
+	<section>
+		<div class="fila">
+			<input type="button" onclick="mover(0)" class="tablero">
+			<input type="button" onclick="mover(1)" class="tablero">
+			<input type="button" onclick="mover(2)" class="tablero">
+			<input type="button" onclick="mover(3)" class="tablero">
+		</div>
+		<div class="fila">
+			<input type="button" onclick="mover(4)" class="tablero">
+			<input type="button" onclick="mover(5)" class="tablero">
+			<input type="button" onclick="mover(6)" class="tablero">
+			<input type="button" onclick="mover(7)" class="tablero">
+		</div>
+		<div class="fila">
+			<input type="button" onclick="mover(8)" class="tablero">
+			<input type="button" onclick="mover(9)" class="tablero">
+			<input type="button" onclick="mover(10)" class="tablero">
+			<input type="button" onclick="mover(11)" class="tablero">
+		</div>
+		<div class="fila">
+			<input type="button" onclick="mover(12)" class="tablero">
+			<input type="button" onclick="mover(13)" class="tablero">
+			<input type="button" onclick="mover(14)" class="tablero">
+			<input type="button" onclick="mover(15)" class="tablero">
+		</div>
+		<input type="button" id="iniciar" value="Iniciar">
+	</section>
+	<script type="text/javascript">
+	document.getElementById("iniciar").addEventListener("click",iniciar);
+	let arreglo=document.getElementsByClassName("tablero");
+
+	function iniciar(){
+		for(let i=0; i<arreglo.length;i++){
+			arreglo[i].value = i+1;
+			if(i==15){
+				arreglo[i].value="";
+			}
+		}
+		revolver();
+	}
+
+	function revolver(){
+		let p=15; //Posición inicial del cuadro blanco
+		for(let i=0; i<100; i++){
+			let valor=Math.floor((Math.random()*4)+1);
+			//Arriba 
+			if(valor==1 && esValida(p-4)){
+				arreglo[p].value=arreglo[p-4].value;
+				arreglo[p-4].value = "";
+				p = p-4;
+			}
+			//Abajo 
+			if(valor==2 && esValida(p+4)){
+				arreglo[p].value=arreglo[p+4].value;
+				arreglo[p+4].value = "";
+				p = p+4;
+			}
+			//Derecha
+			if(valor==3 && esValida(p+1)){
+				arreglo[p].value=arreglo[p+1].value;
+				arreglo[p+1].value = "";
+				p = p+1;
+			}
+			//Izquierdo
+			if(valor==4 && esValida(p-1)){
+				arreglo[p].value=arreglo[p-1].value;
+				arreglo[p-1].value = "";
+				p = p-1;
+			}
+		}
+	}
+
+	function mover(i){
+		//Arriba
+		if(esValida(i+4) && arreglo[i+4].value==""){
+			arreglo[i+4].value = arreglo[i].value;
+			arreglo[i].value = "";
+		}
+		//Abajo
+		if(esValida(i-4) && arreglo[i-4].value==""){
+			arreglo[i-4].value = arreglo[i].value;
+			arreglo[i].value = "";
+		}
+		//Derecha
+		if(esValida(i+1) && arreglo[i+1].value==""){
+			arreglo[i+1].value = arreglo[i].value;
+			arreglo[i].value = "";
+		}
+		//Izquierda
+		if(esValida(i-1) && arreglo[i-1].value==""){
+			arreglo[i-1].value = arreglo[i].value;
+			arreglo[i].value = "";
+		}
+		comprobar();
+	}
+
+	function comprobar(){
+		let bandera=true;
+		for (let i=0;i<15;i++) {
+			if(arreglo[i].value!=i+1){
+				bandera=false;
+				break;
+			}
+		}
+		if(bandera==true){
+			alert("Felicidades ganaste :D")
+		}
+	}
+
+	function esValida(pos){ //Posicion del arreglo
+		if(pos>=0 && pos<=15){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	</script>
+</body>
+</html>
